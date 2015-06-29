@@ -43,7 +43,7 @@ For more information, contact us_.
 .. _Python: http://www.python.org
 .. _us: mailto:info@nexiles.com?subject=nexiles.gateway%20request%20for%20information&cc=se@nexiles.de
 
-.. |docs| image:: https://readthedocs.org/projects/docs/badge/?version=latest
+.. |docs| image:: https://readthedocs.org/projects/nexilesgatewayexample/badge/?version=latest
     :alt: Documentation Status
     :scale: 100%
-    :target: https://readthedocs.org/projects/docs/
+    :target: https://readthedocs.org/projects/nexilesgatewayexample/
