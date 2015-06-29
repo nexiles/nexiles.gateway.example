@@ -124,6 +124,8 @@ Please note, that:-
 Business modules by conventions deal with native **Windchill Objects**.  It's the callee's responsibility to format
 these to other formats -- for example, the API module needs to produce JSON.
 
+.. literalinclude:: ../src/nexiles.gateway.example/nexiles/gateway/example/example.py
+
 Module: example_api.py
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -137,3 +139,5 @@ The API module's responsibility is to:-
 - handle request parameters and request payloads if neccessary,
 - call into the business logic to using decoded parameters to perform the task at hand, and finally
 - to format the results to JSON.
+
+.. literalinclude:: ../src/nexiles.gateway.example/nexiles/gateway/example/example_api.py
