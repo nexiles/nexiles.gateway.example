@@ -2,14 +2,16 @@
 nexiles.gateway example module
 ==============================
 
-Contents:
+|build-status| |docs|
+
+Contents
+--------
 
 .. toctree::
    :maxdepth: 2
 
    introduction
    changelog
-
 
 
 Indices and tables

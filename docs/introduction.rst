@@ -35,4 +35,5 @@ as well as very quick iteration cycles.
 
 For more information, contact us_.
 
+.. _Python: http://www.python.org
 .. _us: mailto:info@nexiles.com?subject=nexiles.gateway%20request%20for%20information&cc=se@nexiles.de
