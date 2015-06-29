@@ -62,7 +62,7 @@ We suggest to create a virtualenv_ for development instead::
 	$ cd nexiles.gateway.example
 	$ virtualenv .
 	$ . bin/activate
-	(nexilea.gateway.example)$ pip install -r requirements.txt
+	(nexiles.gateway.example)$ pip install -r requirements.txt
 
 In general, this documentation assumes that you have set up a virtualenv_.  You *can* use any other means to isolate
 your development environment.
@@ -70,15 +70,40 @@ your development environment.
 .. note:: Jython_ currently is not compatible with virtualenv_.  We recommend to create a dedicated
    Jython_ installation just for Windchill development.
 
+Build Environment
+-----------------
+
+There's a sample build environment setup included in `setenv.sh`.  The example assumes the setup used at
+nexiles for development.  To activate, *source* it into your development shell::
+
+	$ cd nexiles.gateway.example
+	$ . bin/activate
+	(nexiles.gateway.example)$ . ./setenv.sh
+	JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_60.jdk/Contents/Home
+	JYTHON_HOME=/usr/local/opt/jython/libexec
+	WT_HOME=/Users/seletz/develop/Windchill/WT_HOME_102
+	IPYTHONDIR=/Users/seletz/develop/nexiles/nexiles.gateway.example/src/.ipython
+	PYTHONUSERBASE=/Users/seletz/develop/nexiles/nexiles.gateway.example/src/local
+
+
 Performing a build
 ------------------
 
-:prerequisites: `build requirements`
+:prerequisites: `build requirements`, `build environment`
 
 To perform a full build, do::
 
 	$ cd nexiles.gateway.example
-	$ fab build
+	$ . bin/activate
+	(nexiles.gateway.example)$ . ./setenv.sh
+	...
+	(nexiles.gateway.example)$ fab build
+	Loading fabric env from fabric.json
+	...
+	Built eggs:
+	   /Users/seletz/develop/nexiles/nexiles.gateway.example/build/nexiles.gateway.example-0.1.0-py2.7-nexiles.egg
+
+	Done.
 
 This will build the *nexiles.gateway.example** egg and this documentation.  The build artefacts are placed
 in the `build/` directory.
