@@ -19,6 +19,20 @@ We recommend that the *business logic* to be grouped in logical modules, and to 
 to the HTTP and JSON formatting in API modules.  This way, the business logic will be usable by other
 modules directly, and the API and the logic are nicely separated.
 
+Flask Web Framework
+-------------------
+
+The **nexiles.gateway** core uses the Flask_ web feb framework to provide it's services.  It uses
+custom code to hook into the Tomcat_ servlet_ engine which is used by Windchill.
+
+This example code uses `Flask Blueprints`_ to define API endpoints.  This is a **requirement** for
+all service modules.
+
+.. _Flask: http://flask.pocoo.org/docs/0.10
+.. _Tomcat: http://tomcat.apache.org/
+.. _servlet: https://en.wikipedia.org/wiki/Java_servlet
+.. _Flask Blueprints: http://flask.pocoo.org/docs/0.10/blueprints/
+
 Implemented functionality
 -------------------------
 
@@ -34,10 +48,10 @@ Generally, URLs to gateway modules consist of these parts:
 - The module base name
 - The route part.
 
-For example, the URL `https://www.example.com/Windchill/servlet/nexiles/tools/services/example/version` the parts
+For example, in the URL `https://www.example.com/Windchill/servlet/nexiles/tools/services/example/version` the parts
 are:
 
-- `https://www.example.com/Windchill
+- `https://www.example.com/Windchill`
 - `/servlet/nexiles/tools/services`
 - `example/`
 - `version`
