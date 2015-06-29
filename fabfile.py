@@ -1,4 +1,5 @@
 import os
+import sys
 
 from fabric.api import env
 from fabric.api import task
@@ -8,6 +9,11 @@ from fabric.api import execute
 from nexiles.fabric.tasks import log
 
 log.setup_logging()
+
+if not "WT_HOME" in os.environ:
+    log.error("WT_HOME not set: Please read the documentation on build "
+              "requisites and set-up.")
+    sys.exit(10)
 
 from nexiles.fabric.tasks import docs
 from nexiles.fabric.tasks import utils
