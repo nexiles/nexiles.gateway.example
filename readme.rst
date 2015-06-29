@@ -1,6 +1,11 @@
 nexiles.gateway.example
 =======================
 
+|build-status| |docs|
+
+Abstract
+--------
+
 A example service module for nexiles.gateway.
 
 What?

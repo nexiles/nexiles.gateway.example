@@ -2,8 +2,6 @@
 nexiles.gateway example module
 ==============================
 
-|build-status| |docs|
-
 Contents
 --------
 
