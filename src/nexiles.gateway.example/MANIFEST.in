@@ -1,0 +1,2 @@
+global-include .txt .css .html .jpg .png
+recursive-include resources *
