@@ -13,8 +13,6 @@ nexiles.gateway is a generic HTTP API for `PTC Windchill`_ which offers
 a REST-Like, JSON based API to access, create, and manipulate Windchill
 objects.
 
-.. _PTC Windchill: http://www.ptc-solutions.de/produkte/ptc-windchill/ptc-windchill-102.html
-
 Why?
 ----
 
@@ -36,4 +34,5 @@ as well as very quick iteration cycles.
 For more information, contact us_.
 
 .. _Python: http://www.python.org
+.. _PTC Windchill: http://www.ptc-solutions.de/produkte/ptc-windchill/ptc-windchill-102.html
 .. _us: mailto:info@nexiles.com?subject=nexiles.gateway%20request%20for%20information&cc=se@nexiles.de

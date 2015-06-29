@@ -9,6 +9,7 @@ Contents
    :maxdepth: 2
 
    introduction
+   building
    changelog
 
 
