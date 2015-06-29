@@ -76,11 +76,11 @@ def example():
     }
 
 
-@blueprint.route("/1.0/example/<int:session_id>", endpoint="example_get", methods=["GET"])
+@blueprint.route("/1.0/example", endpoint="example_get", methods=["GET"])
 @handle_api_error
 @returns_json
 @inject_runtime
-def example_get_page(session_id):
+def example_get_page():
     limit = flask.request.args.get("limit", 25, type=int)
     logger.debug("example_get: limit=%d", limit)
 

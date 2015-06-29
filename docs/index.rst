@@ -9,7 +9,9 @@ Contents
    :maxdepth: 2
 
    introduction
+   overview
    building
+   deploying
    changelog
 
 
