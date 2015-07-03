@@ -118,10 +118,22 @@ html_theme_options = {
     "github_user": "nexiles",
     "github_repo": "nexiles.gateway.example",
     "github_banner": True,
-    "logo": "iconmonstr-connection-4-icon-256.png",
+    "font_family": "'Source Sans Pro', sans-serif;",
+    "head_font_family": "'Source Sans Pro', sans-serif;",
+    "logo": "iconmonstr-connection-4-icon-128.png",
     "logo_name": True,
 }
-
+html_static_path = ['_static']
+html_style = "nexiles.css"
+html_sidebars = {
+    '**': [
+        'about.html',
+        'navigation.html',
+        'relations.html',
+        'searchbox.html',
+        'donate.html',
+    ]
+}
 # Add any paths that contain custom themes here, relative to this directory.
 html_theme_path = [alabaster.get_path()]
 
@@ -134,7 +146,6 @@ html_theme_path = [alabaster.get_path()]
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = "_static/iconmonstr-connection-4-icon-128.png"
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
@@ -144,7 +155,6 @@ html_logo = "_static/iconmonstr-connection-4-icon-128.png"
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied

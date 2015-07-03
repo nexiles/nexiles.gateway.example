@@ -2,6 +2,10 @@
 nexiles.gateway example module
 ==============================
 
+:Version:  |version|
+:Release:  |release|
+:Date:     |today|
+
 Contents
 --------
 

@@ -6,6 +6,8 @@ SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         =
 BUILDDIR      = _build
+GHBUILDDIR    = ../../nexiles.gateway.example-docs
+
 
 # User-friendly check for sphinx-build
 ifeq ($(shell which $(SPHINXBUILD) >/dev/null 2>&1; echo $$?), 1)
@@ -55,6 +57,18 @@ html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+
+preview: html
+	open $(GHBUILDDIR)/html/index.html
+
+gh_pages:
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(GHBUILDDIR)/html
+	@echo
+	@echo "Build finished. The HTML pages are in $(GHBUILDDIR)/html."
+
+gh_pages_sync:
+	(cd $(GHBUILDDIR)/html; git add .; git commit -m "rebuilt docs"; git push origin gh-pages)
+
 
 dirhtml:
 	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml
