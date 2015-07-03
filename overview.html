@@ -1,0 +1,402 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Overview &mdash; nexiles.gateway example module 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nexiles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="nexiles.gateway example module 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Building" href="building.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Permalink to this headline">¶</a></h2>
+<p>Here we give an overview of the example code.</p>
+</div>
+<div class="section" id="id1">
+<h2>Overview<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Nexiles gateway services are <em>plug-ins</em> to <em>nexiles.gateway</em> which implement a JSON HTTP API using
+multiple <em>routes</em>.  All routes of a service have a common base URL.</p>
+<p>The API the modules implement may use the <em>nexiles.gateway</em> core API, other service&#8217;s public API and
+the Windchill API.</p>
+<p>We recommend that the <em>business logic</em> to be grouped in logical modules, and to provide the <em>glue</em>
+to the HTTP and JSON formatting in API modules.  This way, the business logic will be usable by other
+modules directly, and the API and the logic are nicely separated.</p>
+</div>
+<div class="section" id="flask-web-framework">
+<h2>Flask Web Framework<a class="headerlink" href="#flask-web-framework" title="Permalink to this headline">¶</a></h2>
+<p>The <strong>nexiles.gateway</strong> core uses the <a class="reference external" href="http://flask.pocoo.org/docs/0.10">Flask</a> web feb framework to provide it&#8217;s services.  It uses
+custom code to hook into the <a class="reference external" href="http://tomcat.apache.org/">Tomcat</a> <a class="reference external" href="https://en.wikipedia.org/wiki/Java_servlet">servlet</a> engine which is used by Windchill.</p>
+<p>This example code uses <a class="reference external" href="http://flask.pocoo.org/docs/0.10/blueprints/">Flask Blueprints</a> to define API endpoints.  This is a <strong>requirement</strong> for
+all service modules.</p>
+</div>
+<div class="section" id="implemented-functionality">
+<h2>Implemented functionality<a class="headerlink" href="#implemented-functionality" title="Permalink to this headline">¶</a></h2>
+<p>The example service is very simple and provides two API endpoints.</p>
+<div class="section" id="url-format">
+<h3>URL Format<a class="headerlink" href="#url-format" title="Permalink to this headline">¶</a></h3>
+<p>Generally, URLs to gateway modules consist of these parts:</p>
+<ul class="simple">
+<li>The Windchill Web App URL</li>
+<li>The <strong>nexiles.gateway</strong> service entry point</li>
+<li>The module base name</li>
+<li>The route part.</li>
+</ul>
+<p>For example, in the URL <cite>https://www.example.com/Windchill/servlet/nexiles/tools/services/example/version</cite> the parts
+are:</p>
+<ul class="simple">
+<li><cite>https://www.example.com/Windchill</cite></li>
+<li><cite>/servlet/nexiles/tools/services</cite></li>
+<li><cite>example/</cite></li>
+<li><cite>version</cite></li>
+</ul>
+<p>Below, we obmit the Windchill Web App URL and the <strong>nexiles.gateway</strong> service entry point.</p>
+<p>Please note that we recommend to have <strong>version numbers</strong> in API endpoints.  This way, API upgrades can be made
+without breaking existing consumers by simply creating new entry points.</p>
+</div>
+<div class="section" id="api-example-get">
+<h3>API: example_get<a class="headerlink" href="#api-example-get" title="Permalink to this headline">¶</a></h3>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">endpoint:</th><td class="field-body"><cite>example/1.0/example</cite></td>
+</tr>
+<tr class="field-even field"><th class="field-name">http method:</th><td class="field-body"><cite>GET</cite></td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">request parameter:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><cite>limit</cite>, optional number</td>
+</tr>
+<tr class="field-even field"><th class="field-name">example:</th><td class="field-body"><cite>https://www.example.com/Windchill/servlet/nexiles/tools/services/example/1.0/example?limit=10</cite></td>
+</tr>
+</tbody>
+</table>
+<p>This API endpoint performs a simple, limited query and formats the results as JSON data.  The API module
+calls into the business logic module to do the actual query.</p>
+<p>To use test the API from the CLI, do something like:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ curl -q --user wtadmin:wtadmin -H &quot;Conent-Type: application/json&quot; -X GET \
+        &#39;https://www.example.com/Windchill/servlet/nexiles/tools/services/example/1.0/example?limit=10&#39;
+{
+        &quot;count&quot;: 42,
+        &quot;items&quot;: [
+                {
+                        &quot;url&quot;: &quot;....&quot;,
+                        &quot;details&quot;: &quot;....&quot;,
+                        &quot;OID&quot;: &quot;wt.epm.EPMDocument:42&quot;,
+                        &quot;name:&quot; &quot;example.prt&quot;
+                },
+                ...
+        ]
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="api-example-post">
+<h3>API: example_post<a class="headerlink" href="#api-example-post" title="Permalink to this headline">¶</a></h3>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">endpoint:</th><td class="field-body"><cite>example/1.0/example</cite></td>
+</tr>
+<tr class="field-even field"><th class="field-name">http method:</th><td class="field-body"><cite>POST</cite></td>
+</tr>
+</tbody>
+</table>
+<p>This api call does nothing but echo back the JSON body.  To test this route, you need to issue a HTTP POST, e.g.
+something like:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ curl -q --user wtadmin:wtadmin -H &quot;Conent-Type: application/json&quot; -X POST -d &#39;{hello: &quot;world&quot;}&#39; \
+        https://www.example.com/Windchill/servlet/nexiles/tools/services/example/1.0/example
+{
+        &quot;body&quot;: {
+                &quot;hello&quot;: &quot;world&quot;
+        }
+}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="module-overview">
+<h2>Module Overview<a class="headerlink" href="#module-overview" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-example-py">
+<h3>Module: example.py<a class="headerlink" href="#module-example-py" title="Permalink to this headline">¶</a></h3>
+<p>This module defines functions which implement the business logic.  Because this is an example, the business logic
+is very simple and consists only of one function wich does a very simple query.</p>
+<p>Please note, that:-</p>
+<ul class="simple">
+<li>The business logic module has full access to all the Windchill APIs,</li>
+<li>has full access to all <em>nexiles.gateway</em> modules installed,</li>
+<li>has full access to the <em>nexiles.gateway</em> core API.</li>
+</ul>
+<p>Business modules by conventions deal with native <strong>Windchill Objects</strong>.  It&#8217;s the callee&#8217;s responsibility to format
+these to other formats &#8211; for example, the API module needs to produce JSON.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">nexiles.tools</span> <span class="kn">import</span> <span class="n">query</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&quot;nexiles.gateway.example&quot;</span><span class="p">)</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;example_query&quot;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">example_query</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">25</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    example_query(limit) -&gt; sequence of WT objects</span>
+
+<span class="sd">    Run a example query.</span>
+
+<span class="sd">    :param limit:   optional limit</span>
+
+<span class="sd">    :returns: A sequence of windchill objects</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c"># We just use the nexiles.gateway core API to query for all</span>
+    <span class="c"># parts.</span>
+    <span class="c">#</span>
+    <span class="c"># Note: This is just an example.</span>
+    <span class="k">return</span> <span class="n">query</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;wt.epm.EPMDocument&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;*.prt&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
+
+
+<span class="c"># vim: set ft=python ts=4 sw=4 expandtab :</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="module-example-api-py">
+<h3>Module: example_api.py<a class="headerlink" href="#module-example-api-py" title="Permalink to this headline">¶</a></h3>
+<p>This module defines the HTTP JSON API of the example module.  By convention, the module is named like the business
+logic module with an <cite>_api</cite> postfix.</p>
+<p>The API module&#8217;s responsibility is to:-</p>
+<ul class="simple">
+<li>Define API routes, i.e. mappings of URL endpoints to functions and HTTP verbs,</li>
+<li>define these route functions,</li>
+<li>handle request parameters and request payloads if neccessary,</li>
+<li>call into the business logic to using decoded parameters to perform the task at hand, and finally</li>
+<li>to format the results to JSON.</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># -*- coding: utf-8 -*-</span>
+<span class="c">#</span>
+<span class="c"># File: example_api.py</span>
+<span class="c">#</span>
+<span class="c"># Copyright (c) nexiles GmbH</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">with_statement</span>
+
+<span class="kn">import</span> <span class="nn">flask</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">wt.util</span> <span class="kn">import</span> <span class="n">WTException</span>
+<span class="kn">from</span> <span class="nn">wt.admin</span> <span class="kn">import</span> <span class="n">AdministrativeDomainHelper</span>
+
+<span class="kn">from</span> <span class="nn">nexiles.tools.utils</span> <span class="kn">import</span> <span class="n">OBJ</span><span class="p">,</span> <span class="n">OID</span>
+<span class="kn">from</span> <span class="nn">nexiles.tools.rest.api</span> <span class="kn">import</span> <span class="n">ApiBase</span>
+
+<span class="kn">from</span> <span class="nn">nexiles.tools.rest</span> <span class="kn">import</span> <span class="n">APIError</span>
+<span class="kn">from</span> <span class="nn">nexiles.tools.rest</span> <span class="kn">import</span> <span class="n">handle_api_error</span>
+<span class="kn">from</span> <span class="nn">nexiles.tools.rest</span> <span class="kn">import</span> <span class="n">returns_json</span>
+<span class="kn">from</span> <span class="nn">nexiles.tools.rest</span> <span class="kn">import</span> <span class="n">inject_runtime</span>
+
+<span class="kn">from</span> <span class="nn">nexiles.tools.utils</span> <span class="kn">import</span> <span class="n">get_info_page_url</span>
+
+<span class="kn">from</span> <span class="nn">.blueprint</span> <span class="kn">import</span> <span class="n">blueprint</span>
+
+<span class="c"># This module implements the &quot;business logic&quot;</span>
+<span class="kn">from</span> <span class="nn">.example</span> <span class="kn">import</span> <span class="n">example_query</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&quot;nexiles.gateway.example&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">format_object</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;format_object(obj) -&gt; mapping</span>
+
+<span class="sd">    This function maps Windchill Object Attributes to JSON.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c"># Add the OID and teh name of this object.</span>
+    <span class="n">d</span><span class="p">[</span><span class="s">&quot;OID&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">OID</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="n">d</span><span class="p">[</span><span class="s">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span>
+
+    <span class="c"># The URL will point to the nexiles.gateway URL for this object</span>
+    <span class="n">d</span><span class="p">[</span><span class="s">&quot;url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ApiBase</span><span class="o">.</span><span class="n">url</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">&quot;oid&quot;</span><span class="p">])</span>
+
+    <span class="c"># This will be the Windchill Details Page for that object</span>
+    <span class="n">d</span><span class="p">[</span><span class="s">&quot;details&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_info_page_url</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">d</span>
+
+
+<span class="c">######################################################################</span>
+<span class="c"># API routes</span>
+
+<span class="nd">@blueprint.route</span><span class="p">(</span><span class="s">&quot;/1.0/example&quot;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s">&quot;example_post&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;POST&quot;</span><span class="p">])</span>
+<span class="nd">@handle_api_error</span>
+<span class="nd">@returns_json</span>
+<span class="nd">@inject_runtime</span>
+<span class="k">def</span> <span class="nf">example</span><span class="p">():</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;example_post&quot;</span><span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;JSON Body: </span><span class="si">%r</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">flask</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">json</span><span class="p">)</span>
+    <span class="n">json_body</span> <span class="o">=</span> <span class="n">flask</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">json</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">json_body</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">APIError</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="s">&quot;illegal request&quot;</span><span class="p">,</span> <span class="s">&quot;need a json body.&quot;</span><span class="p">)</span>
+
+    <span class="c"># This example does nothing but echo the JSON body back to the</span>
+    <span class="c"># client.</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s">&quot;body&quot;</span><span class="p">:</span> <span class="n">json_body</span>
+    <span class="p">}</span>
+
+
+<span class="nd">@blueprint.route</span><span class="p">(</span><span class="s">&quot;/1.0/example&quot;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s">&quot;example_get&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;GET&quot;</span><span class="p">])</span>
+<span class="nd">@handle_api_error</span>
+<span class="nd">@returns_json</span>
+<span class="nd">@inject_runtime</span>
+<span class="k">def</span> <span class="nf">example_get_page</span><span class="p">():</span>
+    <span class="n">limit</span> <span class="o">=</span> <span class="n">flask</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;limit&quot;</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;example_get: limit=</span><span class="si">%d</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="p">)</span>
+
+    <span class="c"># Call the example code form the business logic.  This is a hypothetic</span>
+    <span class="c"># query with some limit.  The query returns Windchill Objects.</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">example_query</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
+
+    <span class="c"># Format the Windchill Objects to suitable JSON.</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+        <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">format_object</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s">&quot;count&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">),</span>
+        <span class="s">&quot;items&quot;</span><span class="p">:</span> <span class="n">items</span>
+    <span class="p">}</span>
+
+
+<span class="c"># vim: set ft=python ts=4 sw=4 expandtab :</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/iconmonstr-connection-4-icon-128.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">nexiles.gateway example module</h2>
+    
+  </a>
+</p>
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=nexiles&repo=nexiles.gateway.example&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#flask-web-framework">Flask Web Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#implemented-functionality">Implemented functionality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-overview">Module Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="building.html">Building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploying.html">Deploying</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="introduction.html" title="previous chapter">Introduction</a></li>
+      <li>Next: <a href="building.html" title="next chapter">Building</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stefan Eletzhofer.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/overview.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/nexiles/nexiles.gateway.example" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

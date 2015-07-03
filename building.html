@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Building &mdash; nexiles.gateway example module 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nexiles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="nexiles.gateway example module 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Deploying" href="deploying.html" />
+    <link rel="prev" title="Overview" href="overview.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="building">
+<h1>Building<a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Permalink to this headline">¶</a></h2>
+<p>This documentation explains the build setup.</p>
+</div>
+<div class="section" id="assumptions">
+<h2>Assumptions<a class="headerlink" href="#assumptions" title="Permalink to this headline">¶</a></h2>
+<p>Because this is all about creating a server-side extension for <a class="reference external" href="http://www.ptc-solutions.de/produkte/ptc-windchill/ptc-windchill-102.html">PTC Windchill</a>,
+we assume that you have some experience with Windchill.</p>
+<p>We assume that your local development machine has access to a &#8211; mounted or copied &#8211;
+Windchill installation.</p>
+<p>We also assume that your development machine has unix-like tools installed.  We use
+<a href="#id1"><span class="problematic" id="id2">`</span></a>Apple Mac`_s as development machines.</p>
+</div>
+<div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Installing these is out of scope for this document.  If you need help,
+contact <a class="reference external" href="mailto:info&#37;&#52;&#48;nexiles&#46;com?subject=nexiles&#46;gateway%20request%20for%20information&amp;cc=se&#37;&#52;&#48;nexiles&#46;de">us</a>.</p>
+</div>
+<dl class="docutils">
+<dt><strong>JDK</strong></dt>
+<dd><table class="first docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">version:</th><td class="field-body"><cite>1.7.x</cite> (java 1.7)</td>
+</tr>
+</tbody>
+</table>
+<p class="last">We need a JDK to do Windchill development.  We assume that the <cite>JAVA_HOME</cite> is correctly set and java binaries and tools ar in your <cite>PATH</cite>.</p>
+</dd>
+<dt><strong>Jython</strong></dt>
+<dd><table class="first docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">version:</th><td class="field-body"><cite>2.7.0</cite> or better</td>
+</tr>
+</tbody>
+</table>
+<p class="last">We use <a class="reference external" href="http://www.jython.org/">Jython</a> for development.  We assume the <cite>JYTHON_HOME</cite> environment variable is set correctly.</p>
+</dd>
+<dt><strong>Windchill</strong></dt>
+<dd><table class="first docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">version:</th><td class="field-body"><cite>10.2</cite> or better</td>
+</tr>
+</tbody>
+</table>
+<p class="last">We need a <em>locally</em> available &#8211; mounted or copied &#8211; Windchill codebase directory to compile sources.  We assume that the <cite>WT_HOME</cite> environment
+variable points to the directory containing the <cite>site.xconf</cite> file.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="build-requirements">
+<h2>Build Requirements<a class="headerlink" href="#build-requirements" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can use your own build tools if you like &#8211; there&#8217;s nothing magical about gateway services.  They&#8217;re just
+python (jython) eggs.</p>
+</div>
+<p>The build process uses <a class="reference external" href="http://www.fabfile.org/">Fabric</a> to automate the build.  The build uses tasks from <em>nexiles.fabric.tasks*</em>, for more information
+on them see <a class="reference external" href="https://skynet.nexiles.com/docs/nexiles.fabric.tasks/">there</a>.</p>
+<p>To install the build requirements, you <strong>could</strong> do:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ cd nexiles.gateway.example
+$ pip install -r requirements.txt
+</pre></div>
+</div>
+<p>We suggest to create a <a class="reference external" href="https://virtualenv.pypa.io/en/latest/">virtualenv</a> for development instead:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ cd nexiles.gateway.example
+$ virtualenv .
+$ . bin/activate
+(nexiles.gateway.example)$ pip install -r requirements.txt
+</pre></div>
+</div>
+<p>In general, this documentation assumes that you have set up a <a class="reference external" href="https://virtualenv.pypa.io/en/latest/">virtualenv</a>.  You <em>can</em> use any other means to isolate
+your development environment.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference external" href="http://www.jython.org/">Jython</a> currently is not compatible with <a class="reference external" href="https://virtualenv.pypa.io/en/latest/">virtualenv</a>.  We recommend to create a dedicated
+<a class="reference external" href="http://www.jython.org/">Jython</a> installation just for Windchill development.</p>
+</div>
+</div>
+<div class="section" id="build-environment">
+<h2>Build Environment<a class="headerlink" href="#build-environment" title="Permalink to this headline">¶</a></h2>
+<p>There&#8217;s a sample build environment setup included in <cite>setenv.sh</cite>.  The example assumes the setup used at
+nexiles for development.  To activate, <em>source</em> it into your development shell:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ cd nexiles.gateway.example
+$ . bin/activate
+(nexiles.gateway.example)$ . ./setenv.sh
+JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_60.jdk/Contents/Home
+JYTHON_HOME=/usr/local/opt/jython/libexec
+WT_HOME=/Users/seletz/develop/Windchill/WT_HOME_102
+IPYTHONDIR=/Users/seletz/develop/nexiles/nexiles.gateway.example/src/.ipython
+PYTHONUSERBASE=/Users/seletz/develop/nexiles/nexiles.gateway.example/src/local
+</pre></div>
+</div>
+</div>
+<div class="section" id="performing-a-build">
+<h2>Performing a build<a class="headerlink" href="#performing-a-build" title="Permalink to this headline">¶</a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">prerequisites:</th><td class="field-body"><cite>build requirements</cite>, <cite>build environment</cite></td>
+</tr>
+</tbody>
+</table>
+<p>To perform a full build, do:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ cd nexiles.gateway.example
+$ . bin/activate
+(nexiles.gateway.example)$ . ./setenv.sh
+...
+(nexiles.gateway.example)$ fab build
+Loading fabric env from fabric.json
+...
+Built eggs:
+   /Users/seletz/develop/nexiles/nexiles.gateway.example/build/nexiles.gateway.example-0.1.0-py2.7-nexiles.egg
+
+Done.
+</pre></div>
+</div>
+<p>This will build the <em>nexiles.gateway.example*</em> egg and this documentation.  The build artefacts are placed
+in the <cite>build/</cite> directory.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/iconmonstr-connection-4-icon-128.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">nexiles.gateway example module</h2>
+    
+  </a>
+</p>
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=nexiles&repo=nexiles.gateway.example&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Building</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#assumptions">Assumptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build-requirements">Build Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build-environment">Build Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#performing-a-build">Performing a build</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="deploying.html">Deploying</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="overview.html" title="previous chapter">Overview</a></li>
+      <li>Next: <a href="deploying.html" title="next chapter">Deploying</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Stefan Eletzhofer.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/building.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/nexiles/nexiles.gateway.example" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>
